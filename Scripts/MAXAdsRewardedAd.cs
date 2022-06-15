@@ -117,7 +117,12 @@ namespace Omnilatent.AdsMediation.MAXWrapper
 
         private void OnRewardedAdReceivedRewardEvent(string adUnitId, MaxSdk.Reward reward, MaxSdkBase.AdInfo adInfo)
         {
-            // The rewarded ad displayed and the user should receive the reward.
+            QueueMainThreadExecution(() =>
+            {
+                GetCurrentRewardAd().onAdClosed?.Invoke(new RewardResult(RewardResult.Type.Finished));
+                GetCurrentRewardAd().State = AdObjectState.Shown;
+                onRewardAdReceivedRewardEvent?.Invoke(GetCurrentRewardAd().AdPlacementType, adInfo);
+            });
         }
 
         private void OnRewardedAdRevenuePaidEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
