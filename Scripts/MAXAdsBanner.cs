@@ -37,11 +37,11 @@ namespace Omnilatent.AdsMediation.MAXWrapper
 
         public void ShowBanner(AdPlacement.Type placementType, BannerTransform bannerTransform, AdsManager.InterstitialDelegate onAdLoaded = null)
         {
-            if (currentBannerAd != null && currentBannerAd.adPlacementType == placementType && currentBannerAd.state != AdObjectState.LoadFailed)
+            if (currentBannerAd != null && currentBannerAd.AdPlacementType == placementType && currentBannerAd.State != AdObjectState.LoadFailed)
             {
-                if (currentBannerAd.state == AdObjectState.Ready)
+                if (currentBannerAd.State == AdObjectState.Closed)
                 {
-                    MaxSdk.ShowBanner(MAXAdID.GetAdID(currentBannerAd.adPlacementType));
+                    MaxSdk.ShowBanner(MAXAdID.GetAdID(currentBannerAd.AdPlacementType));
                 }
             }
             else
@@ -69,7 +69,7 @@ namespace Omnilatent.AdsMediation.MAXWrapper
                         break;
                 }
                 currentBannerAd = new BannerAdObject(placementType);
-                currentBannerAd.state = AdObjectState.Loading;
+                currentBannerAd.State = AdObjectState.Loading;
                 string bannerAdUnitId = MAXAdID.GetAdID(placementType);
 
                 // Banners are automatically sized to 320×50 on phones and 728×90 on tablets
@@ -83,8 +83,8 @@ namespace Omnilatent.AdsMediation.MAXWrapper
 
         public void HideBanner()
         {
-            MaxSdk.HideBanner(MAXAdID.GetAdID(GetCurrentBannerAd().adPlacementType));
-            GetCurrentBannerAd().state = AdObjectState.Closed;
+            MaxSdk.HideBanner(MAXAdID.GetAdID(GetCurrentBannerAd().AdPlacementType));
+            GetCurrentBannerAd().State = AdObjectState.Closed;
         }
 
         public void InitializeBannerAds()
@@ -101,10 +101,10 @@ namespace Omnilatent.AdsMediation.MAXWrapper
         {
             QueueMainThreadExecution(() =>
             {
-                if (GetCurrentBannerAd().state != AdObjectState.Closed)
+                if (GetCurrentBannerAd().State != AdObjectState.Closed)
                 {
-                    GetCurrentBannerAd().state = AdObjectState.Showing;
-                    MaxSdk.ShowBanner(MAXAdID.GetAdID(GetCurrentBannerAd().adPlacementType));
+                    GetCurrentBannerAd().State = AdObjectState.Showing;
+                    MaxSdk.ShowBanner(MAXAdID.GetAdID(GetCurrentBannerAd().AdPlacementType));
                 }
             });
         }
@@ -113,8 +113,8 @@ namespace Omnilatent.AdsMediation.MAXWrapper
         {
             QueueMainThreadExecution(() =>
             {
-                GetCurrentBannerAd().state = AdObjectState.LoadFailed;
-                onBannerAdLoadFailedEvent?.Invoke(GetCurrentBannerAd().adPlacementType, errorInfo);
+                GetCurrentBannerAd().State = AdObjectState.LoadFailed;
+                onBannerAdLoadFailedEvent?.Invoke(GetCurrentBannerAd().AdPlacementType, errorInfo);
             });
         }
 
