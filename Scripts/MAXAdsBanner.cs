@@ -116,8 +116,11 @@ namespace Omnilatent.AdsMediation.MAXWrapper
         {
             QueueMainThreadExecution(() =>
             {
-                GetCurrentBannerAd().State = AdObjectState.LoadFailed;
-                onBannerAdLoadFailedEvent?.Invoke(GetCurrentBannerAd().AdPlacementType, errorInfo);
+                if (GetCurrentBannerAd().State != AdObjectState.LoadFailed) //this check is required because AppLovin is calling this method too many times
+                {
+                    GetCurrentBannerAd().State = AdObjectState.LoadFailed;
+                    onBannerAdLoadFailedEvent?.Invoke(GetCurrentBannerAd().AdPlacementType, errorInfo);
+                }
             });
         }
 
