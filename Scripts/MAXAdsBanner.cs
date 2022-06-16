@@ -83,8 +83,11 @@ namespace Omnilatent.AdsMediation.MAXWrapper
 
         public void HideBanner()
         {
-            MaxSdk.HideBanner(MAXAdID.GetAdID(GetCurrentBannerAd().AdPlacementType));
-            GetCurrentBannerAd().State = AdObjectState.Closed;
+            if (currentBannerAd != null)
+            {
+                MaxSdk.HideBanner(MAXAdID.GetAdID(GetCurrentBannerAd().AdPlacementType));
+                GetCurrentBannerAd().State = AdObjectState.Closed;
+            }
         }
 
         public void InitializeBannerAds()
