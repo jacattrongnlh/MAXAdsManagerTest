@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4158691814817654144}
   - component: {fileID: 2608320175374609582}
   m_Layer: 0
-  m_Name: MAXAdsHelper
+  m_Name: MAXAdsWrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,3 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3865c5672d508945b9228ca51e9ad0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableVerboseLogging: 1
